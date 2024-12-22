@@ -1,0 +1,24 @@
+---
+- hosts: localhost  # You may want to use localhost for local execution
+  gather_facts: true
+
+  vars:
+    key_name: devops-key-pair
+    sec_group: my-web-server
+    access_key: AKIA2LMLW5MX5HRMSDMP
+    secret_key: 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
+
+  tasks:
+    - name: provision ec2 instance
+      amazon.aws.ec2_instance:
+        aws_access_key: "{{ access_key}}"
+        aws_secret_key: "{{ secret_key }}"
+        key_name: "{{ pem_key }}"
+        security_group: "{{ sec_group }}"
+        instance_type: t2.micro
+        image_id: ami-05c172c7f0d3aed00
+        count: 1
+        region: eu-west-2
+        state: present
+        tags:
+          foo: bar
